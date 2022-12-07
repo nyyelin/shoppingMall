@@ -77,7 +77,7 @@
 
   <li class="nav-item">
     <a class="nav-link collapsed" href="#">
-      <i class="bi bi-heart"></i><span>Whishlist</span>
+      <i class="bi bi-heart"></i><span>Wishlist</span>
     </a>
   </li>
 
