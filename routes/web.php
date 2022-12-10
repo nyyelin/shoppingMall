@@ -16,3 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('backend.dashboard');
 });
+
+
+Route::get('/mainCategory', function () {
+    return view('backend.category.mainCategory');
+});
