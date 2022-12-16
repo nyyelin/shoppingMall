@@ -18,6 +18,8 @@ Route::get('/', function () {
 });
 
 
-Route::get('/mainCategory', function () {
-    return view('backend.category.mainCategory');
-});
+
+
+// Route::get('/mainCategory', function () {
+//     return view('backend.category.mainCategory');
+// });

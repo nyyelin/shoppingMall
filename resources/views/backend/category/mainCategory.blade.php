@@ -8,6 +8,7 @@
         <li class="breadcrumb-item active">Category</li>
       </ol>
     </nav>
+    <a class="btn btn-primary" href="{{route('main-category.create')}}">New Category</a>
   </div>
   <!-- End Page Title -->
 
@@ -32,52 +33,18 @@
           <div class="card-body">
             <h5 class="card-title">Recent Sales <span>| Today</span></h5>
 
-            <table class="table table-borderless datatable">
+            <table class="table table-borderless" id="main-category">
               <thead>
                 <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Customer</th>
-                  <th scope="col">Product</th>
-                  <th scope="col">Price</th>
-                  <th scope="col">Status</th>
+                  
+                  <th scope="col">Name</th>
+                  <th scope="col">Action</th>
+                  
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row"><a href="#">#2457</a></th>
-                  <td>Brandon Jacob</td>
-                  <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                  <td>$64</td>
-                  <td><span class="badge bg-success">Approved</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2147</a></th>
-                  <td>Bridie Kessler</td>
-                  <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                  <td>$47</td>
-                  <td><span class="badge bg-warning">Pending</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2049</a></th>
-                  <td>Ashleigh Langosh</td>
-                  <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                  <td>$147</td>
-                  <td><span class="badge bg-success">Approved</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2644</a></th>
-                  <td>Angus Grady</td>
-                  <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                  <td>$67</td>
-                  <td><span class="badge bg-danger">Rejected</span></td>
-                </tr>
-                <tr>
-                  <th scope="row"><a href="#">#2644</a></th>
-                  <td>Raheem Lehner</td>
-                  <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                  <td>$165</td>
-                  <td><span class="badge bg-success">Approved</span></td>
-                </tr>
+                
+                
               </tbody>
             </table>
 
@@ -87,4 +54,53 @@
       </div>
     </div>
   </section>
+@endsection
+@section('script')
+<script>
+  $(document).ready(function() {
+    $('#main-category').DataTable({
+        bSort: false,
+        ordering: false,
+        processing: true,
+        serverSide: true,
+        deferRender: true,
+        targets: 'no-sort',
+        destroy: true,
+        responsive: false,
+        ajax: {
+            type: 'post',
+            url: "{{route('ajax.main-category.list')}}",
+        },
+        columns: [
+            { data: 'name', name: 'name', searchable: true, render: $.fn.dataTable.render.text() },
+            {
+                data: 'action',
+                name: 'action',
+                searchable: true,
+                render: function (data, type, row) {
+                  let url = "{{route('main-category.edit',':id')}}";
+                  url = url.replace(':id', row.uuid);
+                    let buttons = '';
+
+                    if (data.canEdit === true) {
+                        buttons += `<a class="btn btn-warning btn-sm text-white" href="${url}"
+                            data-bs-toggle="tooltip" createcreatedata-bs-placement="left" title="Edit">
+                            <i class="bi bi-pencil-square" aria-hidden="true"></i></a>`;
+                    }
+
+                   if (data.canDelete === true) {
+                        buttons += `&nbsp;<a class="btn btn-sm btn-danger text-white" href="#" onclick="deleteByKey(this, 'equipment-type')" id="${row.uuid}"
+                            data-bs-toggle="tooltip" data-bs-placement="right" title="delete"><i class="bi bi-trash" aria-hidden="true"></i></a>`;
+                    }
+                    
+                    return buttons;
+                }
+            }
+        ],
+        "columnDefs": [
+            {"searchable": false}
+        ],
+    });
+  })
+</script>
 @endsection

@@ -14,11 +14,14 @@ class CreateMainCategoriesTable extends Migration
     public function up()
     {
         Schema::create('main_categories', function (Blueprint $table) {
+            $table->uuid('uuid');
             $table->id();
             $table->string('name');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
+
 
     /**
      * Reverse the migrations.
